@@ -14,14 +14,8 @@
 <b>Описание: </b>${product.description}<br>
 <b>Цена: </b>${product.price}<br>
 <b>Город: </b>${product.city}<br>
-<b>Автор: </b>${product.author}<br>
-
-<hr>
-
-<form action="/product/delete/${product.id}" method="post">
-	
-		<input type="submit" value="Удалить товар"/>
-	
+<b>Автор: </b>${product.user.name}<br>
+<b>Номер телефона: </b>${product.user.phoneNumber}<br>
 </form>
 
 </body>
