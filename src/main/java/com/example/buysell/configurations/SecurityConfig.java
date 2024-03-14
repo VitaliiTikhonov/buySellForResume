@@ -3,6 +3,8 @@ package com.example.buysell.configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,15 +18,16 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 	private final CustomUserDetailService userDetailService;
 	
 	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 			.authorizeHttpRequests((requests) -> requests
-				.requestMatchers("/", "/product/**", "/images/**", "/registration").permitAll()
+				.requestMatchers("/", "/product/**", "/images/**", "/registration", "/user/**").permitAll()
 				.anyRequest().authenticated()
 			)
 			.formLogin((form) -> form
@@ -43,7 +46,7 @@ public class SecurityConfig {
 	
 		
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	protected PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder(8);
 	}
 }
